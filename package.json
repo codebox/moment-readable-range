@@ -1,0 +1,33 @@
+{
+  "name": "moment-precise-range",
+  "version": "0.1.0",
+  "description": "moment js with precision time",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "coveralls": "istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mtscout6/moment-precise-range.git"
+  },
+  "keywords": [
+    "moment"
+  ],
+  "author": "Rob Dawson",
+  "maintainer": "Matthew Smith <mtscout6@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mtscout6/moment-precise-range/issues"
+  },
+  "homepage": "https://github.com/mtscout6/moment-precise-range",
+  "dependencies": {
+    "moment": "^2.8.1"
+  },
+  "devDependencies": {
+    "coveralls": "^2.10.1",
+    "istanbul": "^0.3.0",
+    "mocha": "^1.21.4",
+    "mocha-lcov-reporter": "0.0.1"
+  }
+}
