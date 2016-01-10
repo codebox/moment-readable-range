@@ -1,4 +1,13 @@
-(function(moment) {
+(function (root, factory) {
+    /* support for RequireJS */
+    if (typeof define === "function" && define.amd) {
+        define("moment-precise-range", ["moment"], factory);
+    } else if (root.moment) {
+        factory(root.moment);
+    } else {
+        throw "Can't find momentjs";
+    }
+}(this, function(moment) {
     var STRINGS = {
         nodiff: '',
         year: 'year',
@@ -88,4 +97,4 @@
 
         return result.join(STRINGS.delimiter);
     };
-}(moment));
+}));
