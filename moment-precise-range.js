@@ -1,8 +1,16 @@
-if (typeof moment === "undefined" && require) {
-    moment = require('moment');
-}
+(function (root, factory) {
+	if (typeof define === 'function' && define.amd) {
+		// AMD. Register as an anonymous module.
+		define(['moment'], factory);
+	} else if (typeof module === 'object' && module.exports) {
+		// CommonJS-like environments, like Node.
+		factory(require('moment'));
+	} else {
+		// Browser globals (root is window)
+		factory(root.moment);
+	}
+}(this, function (moment) {
 
-(function(moment) {
     var STRINGS = {
         nodiff: '',
         year: 'year',
@@ -119,4 +127,5 @@ if (typeof moment === "undefined" && require) {
 
 
     };
-}(moment));
+
+}));
