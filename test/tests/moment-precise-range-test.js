@@ -1,4 +1,5 @@
 if (typeof require !== "undefined") {
+    var moment = require('moment');
     require('../../moment-precise-range');
 }
 
@@ -100,7 +101,7 @@ describe("preciseDiff", function() {
         it("start month has fewer days than last full month", function() {
             test('2013-04-29 00:00:00+0000', '2013-08-01 00:00:00+0000', '3 months 3 days');
             test('2013-04-30 00:00:00+0000', '2013-08-01 00:00:00+0000', '3 months 2 days');
-            // no way to get '3 months 1 day' to 2013-08-01 
+            // no way to get '3 months 1 day' to 2013-08-01
         });
         it("start month has same days as last full month", function() {
             test('2013-05-30 00:00:00+0000', '2013-08-01 00:00:00+0000', '2 months 2 days');
