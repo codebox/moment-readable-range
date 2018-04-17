@@ -9,6 +9,8 @@ if (typeof moment === "undefined" && typeof require === 'function') {
         years: 'years',
         month: 'month',
         months: 'months',
+        week: 'week',
+        weeks: 'weeks',
         day: 'day',
         days: 'days',
         hour: 'hour',
@@ -24,7 +26,7 @@ if (typeof moment === "undefined" && typeof require === 'function') {
         return num + ' ' + STRINGS[word + (num === 1 ? '' : 's')];
     }
 
-    function buildStringFromValues(yDiff, mDiff, dDiff, hourDiff, minDiff, secDiff){
+    function buildStringFromValues(yDiff, mDiff, wDiff, dDiff, hourDiff, minDiff, secDiff){
         var result = [];
 
         if (yDiff) {
@@ -32,6 +34,9 @@ if (typeof moment === "undefined" && typeof require === 'function') {
         }
         if (mDiff) {
             result.push(pluralize(mDiff, 'month'));
+        }
+        if (wDiff) {
+            result.push(pluralize(wDiff, 'week'));
         }
         if (dDiff) {
             result.push(pluralize(dDiff, 'day'));
@@ -49,11 +54,12 @@ if (typeof moment === "undefined" && typeof require === 'function') {
         return result.join(STRINGS.delimiter);
     }
 
-    function buildValueObject(yDiff, mDiff, dDiff, hourDiff, minDiff, secDiff, firstDateWasLater) {
+    function buildValueObject(yDiff, mDiff, wDiff, dDiff, hourDiff, minDiff, secDiff, firstDateWasLater) {
         return {
             "years"   : yDiff,
             "months"  : mDiff,
             "days"    : dDiff,
+            "weeks"   : wDiff,
             "hours"   : hourDiff,
             "minutes" : minDiff,
             "seconds" : secDiff,
@@ -66,9 +72,9 @@ if (typeof moment === "undefined" && typeof require === 'function') {
 
     moment.preciseDiff = function(d1, d2, returnValueObject) {
         var m1 = moment(d1), m2 = moment(d2), firstDateWasLater;
-        
+
         m1.add(m2.utcOffset() - m1.utcOffset(), 'minutes'); // shift timezone of m1 to m2
-        
+
         if (m1.isSame(m2)) {
             if (returnValueObject) {
                 return buildValueObject(0, 0, 0, 0, 0, 0, false);
@@ -87,6 +93,7 @@ if (typeof moment === "undefined" && typeof require === 'function') {
 
         var yDiff = m2.year() - m1.year();
         var mDiff = m2.month() - m1.month();
+        var wDiff = 0;
         var dDiff = m2.date() - m1.date();
         var hourDiff = m2.hour() - m1.hour();
         var minDiff = m2.minute() - m1.minute();
@@ -113,15 +120,19 @@ if (typeof moment === "undefined" && typeof require === 'function') {
             }
             mDiff--;
         }
+        if (dDiff > 7) {
+          wDiff = Math.floor(dDiff / 7);
+          dDiff = dDiff % 7;
+        }
         if (mDiff < 0) {
             mDiff = 12 + mDiff;
             yDiff--;
         }
 
         if (returnValueObject) {
-            return buildValueObject(yDiff, mDiff, dDiff, hourDiff, minDiff, secDiff, firstDateWasLater);
+            return buildValueObject(yDiff, mDiff, wDiff, dDiff, hourDiff, minDiff, secDiff, firstDateWasLater);
         } else {
-            return buildStringFromValues(yDiff, mDiff, dDiff, hourDiff, minDiff, secDiff);
+            return buildStringFromValues(yDiff, mDiff, wDiff, dDiff, hourDiff, minDiff, secDiff);
         }
 
 
